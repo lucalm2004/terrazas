@@ -121,6 +121,7 @@ if (!isset($_SESSION['id'])) {
 
     <!-- Modal de Reserva -->
     <!-- Modal de Reserva -->
+<!-- Modal de Reserva -->
 <div class="modal fade" id="reservaModal" tabindex="-1" aria-labelledby="reservaModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -143,12 +144,34 @@ if (!isset($_SESSION['id'])) {
                     <!-- Campo oculto para el estado de la mesa -->
                     <input type="hidden" name="estado_mesa" value="reservado">
 
+                    <!-- Nuevos campos para la reserva -->
+                    <div class="mb-3">
+                        <label for="nombre_reserva" class="form-label">Nombre de la Reserva</label>
+                        <input type="text" class="form-control" id="nombre_reserva" name="nombre_reserva">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="hora_reserva" class="form-label">Hora de Inicio de la Reserva</label>
+                        <input type="time" class="form-control" id="hora_reserva" name="hora_reserva">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="hora_fin_reserva" class="form-label">Hora de Fin de la Reserva</label>
+                        <input type="time" class="form-control" id="hora_fin_reserva" name="hora_fin_reserva">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="dia_reserva" class="form-label">Día de la Reserva</label>
+                        <input type="date" class="form-control" id="dia_reserva" name="dia_reserva">
+                    </div>
+
                     <button type="submit" class="btn btn-primary">Enviar Reserva</button>
                 </form>
             </div>
         </div>
     </div>
 </div>
+
 
 
     <script>
