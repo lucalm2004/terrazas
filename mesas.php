@@ -86,12 +86,23 @@ if (!isset($_SESSION['id'])) {
                 echo '<p>'.$mesa['estado'].'</p>';
                 $clase = 'class ="btn2 success btn-block" value="Ocupar" ';
             }
-            echo "<form method='POST' action='./inc/procesar.php'>";
-            echo "<input type='hidden' name='id_sala' value=".$mesa['id_sala'].">";
+            if($mesa['estado'] == "reservado"){
+                echo "<form action='./inc/procesar_reserva.php' method='post'>";
+                echo "<input type='hidden' name='id_sala' value=".$mesa['id_sala'].">";
             echo "<input type='hidden' name='id_mesa' value=".$mesa['id_mesa'].">";
             echo "<input type='hidden' name='numero_mesa' value=".$mesa['numero_mesa'].">";
+            echo "<input type='hidden' name='desreserva' value='desreserva'>";
+            }else{
+                echo "<form method='POST' action='./inc/procesar.php'>";
+                echo "<input type='hidden' name='id_sala' value=".$mesa['id_sala'].">";
+                echo "<input type='hidden' name='id_mesa' value=".$mesa['id_mesa'].">";
+                echo "<input type='hidden' name='numero_mesa' value=".$mesa['numero_mesa'].">";
+            }
+            
+            
             if($mesa['estado'] == "reservado"){
-                echo "<input class='btn2 danger btn-block' value='Desreservar' type='button' onclick='mostrarReservaModal(\"{$mesa['id_mesa']}\", \"{$mesa['numero_mesa']}\")'>";
+               
+                echo "<input class='btn2 danger btn-block' value='Desreservar' type='submit'>";
             }else{
                 echo "<input ".$clase." type='submit'>";
 
