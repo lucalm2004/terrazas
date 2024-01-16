@@ -6,6 +6,7 @@ if (!isset($_SESSION['id'])) {
     exit;
 }
 
+
 // Verificar si se han enviado datos del formulario
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['desreserva'])) {
@@ -51,7 +52,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             require 'conexion.php';
 
             // Obtener datos del formulario
-            $id_sala = $_POST['idSala'];
+            $id_sala = $_POST['id_sala'];
+            echo '<p>' . $id_sala .'</p>';
             $id_mesa = $_POST['id_mesa_reserva'];
             $estado_mesa = $_POST['estado_mesa'];
             $nombre_reserva = $_POST['nombre_reserva'];

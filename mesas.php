@@ -91,6 +91,11 @@ if (!isset($_SESSION['id'])) {
                 echo "<input type='hidden' name='id_sala' value=".$mesa['id_sala'].">";
             echo "<input type='hidden' name='id_mesa' value=".$mesa['id_mesa'].">";
             echo "<input type='hidden' name='numero_mesa' value=".$mesa['numero_mesa'].">";
+            echo '<p> <b>Nombre de la reserva: </b>'.$mesa['nombre_reserva'].'</p>';
+            echo '<p><b>Hora de la Reserva: </b>'.$mesa['hora_reserva'].'</p>';
+            echo '<p><b>Hora fin Reserva: </b>'.$mesa['hora_fin_reserva'].'</p>';
+            echo '<p><b>Dia de la reserva: </b>'.$mesa['dia_reserva'].'</p>';
+
             echo "<input type='hidden' name='desreserva' value='desreserva'>";
             }else{
                 echo "<form method='POST' action='./inc/procesar.php'>";
@@ -120,9 +125,7 @@ if (!isset($_SESSION['id'])) {
     ?>
 
     <!-- Modal de Reserva -->
-    <!-- Modal de Reserva -->
-<!-- Modal de Reserva -->
-<div class="modal fade" id="reservaModal" tabindex="-1" aria-labelledby="reservaModalLabel" aria-hidden="true">
+    <div class="modal fade" id="reservaModal" tabindex="-1" aria-labelledby="reservaModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -134,9 +137,8 @@ if (!isset($_SESSION['id'])) {
                 <div id="infoMesa" class="mb-3"></div>
 
                 <!-- Formulario de reserva -->
-                <form id="reservaForm" method="post" action="./inc/procesar_reserva.php">
+                <form id="reservaForm" method="post" action="./inc/procesar_reserva.php" onsubmit="return validarReserva()">
                     <!-- Otros campos del formulario -->
-                    <input type="hidden" name="idSala" id="idSala" value="<?php echo isset($_GET['id']) ? htmlspecialchars($_GET['id']) : ''; ?>">
 
                     <!-- Campo oculto para almacenar el id de la mesa -->
                     <input type="hidden" id="id_mesa_reserva" name="id_mesa_reserva">
@@ -144,26 +146,28 @@ if (!isset($_SESSION['id'])) {
                     <!-- Campo oculto para el estado de la mesa -->
                     <input type="hidden" name="estado_mesa" value="reservado">
 
-                    <!-- Nuevos campos para la reserva -->
-                    <div class="mb-3">
-                        <label for="nombre_reserva" class="form-label">Nombre de la Reserva</label>
-                        <input type="text" class="form-control" id="nombre_reserva" name="nombre_reserva">
-                    </div>
+                    <!-- Nombre -->
+                    <label for="nombre_reserva">Nombre:</label>
+                    <input type="text" id="nombre_reserva" name="nombre_reserva" oninput="validarNombre()" required>
+                    <p id="nombreError" style="color: red;"></p>
 
-                    <div class="mb-3">
-                        <label for="hora_reserva" class="form-label">Hora de Inicio de la Reserva</label>
-                        <input type="time" class="form-control" id="hora_reserva" name="hora_reserva">
-                    </div>
+                    <!-- Hora -->
+                    <label for="hora_reserva">Hora:</label>
+                    <input type="time" id="hora_reserva" name="hora_reserva" oninput="validarHora()" required>
+                    <p id="horaError" style="color: red;"></p>
 
-                    <div class="mb-3">
-                        <label for="hora_fin_reserva" class="form-label">Hora de Fin de la Reserva</label>
-                        <input type="time" class="form-control" id="hora_fin_reserva" name="hora_fin_reserva">
-                    </div>
+                    <!-- Hora de fin -->
+                    <label for="hora_fin_reserva">Hora de fin:</label>
+                    <input type="time" id="hora_fin_reserva" name="hora_fin_reserva" oninput="validarHoraFin()" required>
+                    <p id="errorFechaFin" style="color: red;"></p>
 
-                    <div class="mb-3">
-                        <label for="dia_reserva" class="form-label">Día de la Reserva</label>
-                        <input type="date" class="form-control" id="dia_reserva" name="dia_reserva">
-                    </div>
+                    <!-- Día -->
+                    <label for="dia_reserva">Día:</label>
+                    <input type="date" id="dia_reserva" name="dia_reserva" oninput="validarDia()" required>
+                    <p id="diaError" style="color: red;"></p>
+
+                    <!-- ID Sala -->
+                    <input type="hidden" name="id_sala" value="<?php echo isset($_GET['id']) ? htmlspecialchars($_GET['id']) : ''; ?>">
 
                     <button type="submit" class="btn btn-primary">Enviar Reserva</button>
                 </form>
@@ -171,16 +175,8 @@ if (!isset($_SESSION['id'])) {
         </div>
     </div>
 </div>
+<script src="./js/mesas.js"></script>
 
-
-
-    <script>
-   function mostrarReservaModal(idMesa, nombreMesa, idSala) {
-    $("#id_mesa_reserva").val(idMesa);
-    $("#infoMesa").html("<p>Reservando mesa: " + nombreMesa + "</p>");
-    $("#reservaModal").modal("show");
-}
-</script>
 
 
 </body>
