@@ -158,6 +158,10 @@ body {
     filter: brightness(0%);
 }
 
+.filtro2 {
+    filter: grayscale(80%);
+}
+
 .image-item {
     position: relative;
     width: 100%;

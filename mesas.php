@@ -75,17 +75,42 @@ if (!isset($_SESSION['id'])) {
                 echo '<div class="image-grid">';
             }
             echo '<a><div class="image-item">';
-            if ($mesa['estado'] == "ocupada" || $mesa['estado'] == "reservado" ) {
-                echo '<img class="filtro" src="./img/mesas.png" alt="Imagen 1">';
+            if ($mesa['estado'] == "ocupada" || $mesa['estado'] == "reservado") {
+                if($mesa['estado'] == "mantenimiento"){
+                    echo '<img class="filtro2" src="./img/mesas.png" alt="Imagen 1">';
+                }else{
+                    echo '<img class="filtro" src="./img/mesas.png" alt="Imagen 1">';
+
+                }
                 echo '<div class="image-text"><h2> Mesa'.$mesa['numero_mesa'].'</h2>';
                 echo '<p class="diss">'.$mesa['estado'].'</p>';
                 $clase = 'class ="btn2 danger  btn-block" value="Desocupar" ';
             } else {
-                echo '<img class="" src="./img/mesas.png" alt="Imagen 1">';
+                if($mesa['estado'] == "mantenimiento"){
+                    echo '<img class="filtro2" src="./img/mesas.png" alt="Imagen 1">';
+                }else{
+                    echo '<img class="" src="./img/mesas.png" alt="Imagen 1">';
+
+                }
                 echo '<div class="image-text"><h2> Mesa'.$mesa['numero_mesa'].'</h2>';
-                echo '<p>'.$mesa['estado'].'</p>';
-                $clase = 'class ="btn2 success btn-block" value="Ocupar" ';
+                echo '<p><b>Estado: </b>'.$mesa['estado'].'</p>';
+                if($_SESSION['user'] == 'mantenimiento'){
+                    echo '<b>Sillas: </b><input style="margin-bottom:5%" type="text" value="'.$mesa['sillas'].'"></input>';
+                    if($mesa['estado'] == 'mantenimiento'){
+                        $clase = 'class ="btn2 success btn-block" value="Arreglado/Mantenimiento" ';
+                    }else{
+                        $clase = 'class ="btn2 danger btn-block" value="Mantenimiento/Arreglado" ';
+
+                    }
+                }elseif($mesa['estado'] !== 'mantenimiento'){
+                    echo '<p><b>Sillas: </b>'.$mesa['sillas'].'</p>';
+                    $clase = 'class ="btn2 success btn-block" value="Ocupar" ';
+                }else{
+                    $clase = 'class ="btn btn-secondary btn-block" value="Mantenimiento" disabled';
+                }
+                
             }
+            
             if($mesa['estado'] == "reservado"){
                 echo "<form action='./inc/procesar_reserva.php' method='post'>";
                 echo "<input type='hidden' name='id_sala' value=".$mesa['id_sala'].">";
@@ -105,13 +130,20 @@ if (!isset($_SESSION['id'])) {
             }
             
             
-            if($mesa['estado'] == "reservado"){
-               
+            if($mesa['estado'] == "reservado" && $_SESSION['user'] !== 'mantenimiento' ){
+               if($mesa['estado'] !== "mantenimiento"){
                 echo "<input class='btn2 danger btn-block' value='Desreservar' type='submit'>";
-            }else{
-                echo "<input ".$clase." type='submit'>";
 
-                echo "<input class='btn2 success btn-block' value='Reservar' type='button' onclick='mostrarReservaModal(\"{$mesa['id_mesa']}\", \"{$mesa['numero_mesa']}\")'>";
+               }
+            }elseif($_SESSION['user'] !== 'mantenimiento' ){
+                echo "<input ".$clase." type='submit'>";
+                if($mesa['estado'] !== "mantenimiento"){
+                    echo "<input class='btn2 success btn-block' value='Reservar' type='button' onclick='mostrarReservaModal(\"{$mesa['id_mesa']}\", \"{$mesa['numero_mesa']}\")'>";
+    
+                   }
+            }else{
+                echo "<input ".$clase." name='estadoSilla' type='submit'>";
+
             }
             echo "</form>";
             echo '</div></div></a>';
