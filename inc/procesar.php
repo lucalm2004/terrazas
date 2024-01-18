@@ -13,7 +13,7 @@ if (!isset($_SESSION['id'])) {
 include_once('./conexion.php');
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if($_POST['estadoSilla'] == 'Arreglado/Mantenimiento' ||$_POST['estadoSilla'] == 'Mantenimiento/Arreglado' ){
+    if($_POST['estadoSilla'] == 'Arreglado/Mantenimiento' || $_POST['estadoSilla'] == 'Mantenimiento/Arreglado' || $_POST['estadoSilla'] == 'Mantenimiento' ){
         if (isset($_POST['numero_mesa'])) {
             try {
                 $id_sala = $_POST['id_sala'];

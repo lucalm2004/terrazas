@@ -138,6 +138,11 @@ if (!isset($_SESSION['id'])) {
             }elseif($_SESSION['user'] !== 'mantenimiento' ){
                 echo "<input ".$clase." type='submit'>";
                 if($mesa['estado'] !== "mantenimiento"){
+                    echo "<input class = 'btn2 danger btn-block' name='estadoSilla' value='Mantenimiento' type='submit'>";
+
+                }
+
+                if($mesa['estado'] !== "mantenimiento"){
                     echo "<input class='btn2 success btn-block' value='Reservar' type='button' onclick='mostrarReservaModal(\"{$mesa['id_mesa']}\", \"{$mesa['numero_mesa']}\")'>";
     
                    }
