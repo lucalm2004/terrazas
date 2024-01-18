@@ -93,9 +93,31 @@ if (!isset($_SESSION['id'])) {
                 echo '<div class="image-text"><h2> Mesa' . $mesa['numero_mesa'] . '</h2>';
                 echo '<p><b>Estado: </b>' . $mesa['estado'] . '</p>';
                 if ($_SESSION['user'] == 'mantenimiento') {
-                    echo '<form action="sillas.php?id=' . $mesa['numero_mesa'] . '">';
-                    echo '<b>Sillas: </b><input style="margin-bottom:5%" type="text" value="' . $mesa['sillas'] . '"></input>';
+                    echo '<form method="POST" action="./inc/sillasrotas.php?id=' . $mesa['numero_mesa'] . '">';
+                     echo "<input type='hidden' name='id_sala' value=" . $mesa['id_sala'] . ">";
+                    echo "<input type='hidden' name='id_mesa' value=" . $mesa['id_mesa'] . ">";
+                    echo "<input type='hidden' name='sillas' value=" . $mesa['sillas'] . ">";
+                    echo "<input type='hidden' name='sillas_mantenimiento' value=" . $mesa['sillas_mantenimiento'] . ">";
+                    echo '<div class="d-flex align-items-center justify-content-between">';
+                    echo '<p><b>Sillas rotas: </b>' . $mesa['sillas_mantenimiento'] . '</p>';
+                    echo '<div>';
+                    echo '<span>';
+                    if($mesa['sillas'] !== 0){
+                    echo '<button style="margin-bottom: 30%;" type="submit" name="add_silla" class="btn btn-success">+</button>';
+                    }
+                    echo '  ';
+                    if($mesa['sillas_mantenimiento'] !== 0){
+                        echo '<button style="margin-bottom: 30%" type="submit" name="remove_silla" class="btn btn-danger">-</button>';
+
+                    }
+                    echo '</span>';
+                    echo '</div>';
+
+                    echo '</div>';
                     echo '</form>';
+                    if($mesa['sillas'] == 0){
+                        echo '<p style="text-align: center;"><b>Todas las sillas estan rotas</b></p>';
+                        }
                     if ($mesa['estado'] == 'mantenimiento') {
                         $clase = 'class ="btn2 success btn-block" value="Arreglado/Mantenimiento" ';
                     } else {
@@ -113,7 +135,9 @@ if (!isset($_SESSION['id'])) {
                     echo '<span>';
                     echo '<button style="margin-bottom: 30%;" type="submit" name="add_silla" class="btn btn-success">+</button>';
                     echo '  ';
+                    if($mesa['sillas'] !== 0){
                     echo '<button style="margin-bottom: 30%" type="submit" name="remove_silla" class="btn btn-danger">-</button>';
+                    }
                     echo '</span>';
                     echo '</div>';
 
