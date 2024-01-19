@@ -76,6 +76,15 @@ if (!isset($_SESSION['id'])) {
         }
 
         echo '<div class="centrado">';
+
+        if($_SESSION['id'] == 4){
+           echo "<a style='position: absolute; margin-left: 50%; margin-bottom: 27%;'>
+            <button class='atrasboton' onclick='mostrarFormularioAgregarMesa()'>
+                <img class='atrasimg' src='./img/plus.png' alt=''>
+            </button>
+        </a>";
+        
+        }
         $i = 0;
         foreach ($res as $mesa) {
             if ($i % 3 == 0 || $i == 0) {
@@ -90,16 +99,23 @@ if (!isset($_SESSION['id'])) {
                 }
                 echo '<div class="image-text"><h2> Mesa' . $mesa['numero_mesa'] . '</h2>';
                 echo '<p class="diss">' . $mesa['estado'] . '</p>';
-                $clase = 'class ="btn2 danger  btn-block" value="Desocupar" ';
+                if($_SESSION['id'] !== 4 ){
+                    $clase = 'class ="btn2 danger  btn-block" value="Desocupar" ';
+
+                }else{
+                    $clase = 'class ="btn2 danger  btn-block" value="Desocupar" hidden';
+
+                }
             } else {
                 if ($mesa['estado'] == "mantenimiento") {
                     echo '<img class="filtro2" src="./img/mesas.png" alt="Imagen 1">';
                 } else {
                     echo '<img class="" src="./img/mesas.png" alt="Imagen 1">';
                 }
-                echo '<div class="image-text"><h2> Mesa' . $mesa['numero_mesa'] . '</h2>';
+                echo '<div class="image-text"><h2> Mesa: ' . $mesa['numero_mesa'] . '</h2>';
                 echo '<p><b>Estado: </b>' . $mesa['estado'] . '</p>';
-                if ($_SESSION['user'] == 'mantenimiento') {
+            
+                if ($_SESSION['user'] == 'mantenimiento' ) {
                     echo '<form method="POST" action="./inc/sillasrotas.php?id=' . $mesa['numero_mesa'] . '">';
                      echo "<input type='hidden' name='id_sala' value=" . $mesa['id_sala'] . ">";
                     echo "<input type='hidden' name='id_mesa' value=" . $mesa['id_mesa'] . ">";
@@ -125,7 +141,10 @@ if (!isset($_SESSION['id'])) {
                     if($mesa['sillas'] == 0){
                         echo '<p style="text-align: center;"><b>Todas las sillas estan rotas</b></p>';
                         }
-                    if ($mesa['estado'] == 'mantenimiento') {
+                        if($_SESSION['id'] == 4 ){
+                            $clase = 'hidden';
+
+                        }elseif ($mesa['estado'] == 'mantenimiento') {
                         $clase = 'class ="btn2 success btn-block" value="Arreglado/Mantenimiento" ';
                     } else {
                         $clase = 'class ="btn2 danger btn-block" value="Mantenimiento/Arreglado" ';
@@ -140,20 +159,33 @@ if (!isset($_SESSION['id'])) {
                     echo '<p><b>Sillas: </b>' . $mesa['sillas'] . '</p>';
                     echo '<div>';
                     echo '<span>';
+                    if($_SESSION['id'] == 4 ){
+
                     echo '<button style="margin-bottom: 30%;" type="submit" name="add_silla" class="btn btn-success">+</button>';
                     echo '  ';
                     if($mesa['sillas'] !== 0){
                     echo '<button style="margin-bottom: 30%" type="submit" name="remove_silla" class="btn btn-danger">-</button>';
                     }
+                }
                     echo '</span>';
                     echo '</div>';
 
                     echo '</div>';
                     echo '</form>';
+                    if($_SESSION['id'] == 4 ){
+                        $clase = 'hidden';
 
-                    $clase = 'class ="btn2 success btn-block" value="Ocupar" ';
+                    }else{
+                        $clase = 'class ="btn2 success btn-block" value="Ocupar" ';
+
+                    }
                 } else {
+                    if($_SESSION['id'] == 4 ){
+                        $clase = 'hidden';
+
+                    }else{
                     $clase = 'class ="btn btn-secondary btn-block" value="Mantenimiento" disabled';
+                    }
                 }
             }
 
@@ -179,16 +211,23 @@ if (!isset($_SESSION['id'])) {
 
             if ($mesa['estado'] == "reservado" && $_SESSION['user'] !== 'mantenimiento') {
                 if ($mesa['estado'] !== "mantenimiento") {
-                    echo "<input class='btn2 danger btn-block' value='Desreservar' type='submit'>";
+                    if($_SESSION['id'] !== 4 ){
+                        echo "<input class='btn2 danger btn-block' value='Desreservar' type='submit'>";
+
+                    }
                 }
             } elseif ($_SESSION['user'] !== 'mantenimiento') {
                 echo "<input " . $clase . " type='submit'>";
                 if ($mesa['estado'] !== "mantenimiento") {
+                    if($_SESSION['id'] !== 4 ){
                     echo "<input class = 'btn2 danger btn-block' name='estadoSilla' value='Mantenimiento' type='submit'>";
+                    }
                 }
 
                 if ($mesa['estado'] !== "mantenimiento") {
+                    if($_SESSION['id'] !== 4 ){
                     echo "<input class='btn2 success btn-block' value='Reservar' type='button' onclick='mostrarReservaModal(\"{$mesa['id_mesa']}\", \"{$mesa['numero_mesa']}\")'>";
+                    }
                 }
             } else {
                 echo "<input " . $clase . " name='estadoSilla' type='submit'>";
@@ -256,6 +295,106 @@ if (!isset($_SESSION['id'])) {
         </div>
     </div>
     <script src="./js/mesas.js"></script>
+    <!-- Dentro de la sección head de tu HTML -->
+<script>
+   function mostrarFormularioAgregarMesa() {
+    // Crea un formulario básico con campos para número de mesa, sillas e id_sala
+    let formHtml = `
+        <form id="formularioAgregarMesa">
+            <label for="numeroMesa">Número de Mesa:</label>
+            <input type="text" id="numeroMesa" name="numeroMesa" required>
+
+            <br><br><label for="sillas">Número de Sillas:</label>
+            <input type="text" id="sillas" name="sillas" required>
+
+            <br><br><label for="idSala">ID de Sala:</label>
+            <select id="idSala" name="idSala" required>
+                <option value="1">Terraza 1</option>
+                <option value="2">Terraza 2</option>
+                <option value="3">Terraza 3</option>
+                <option value="4">Comedor 1</option>
+                <option value="5">Comedor 2</option>
+            </select>
+
+            <br><br><button class="btn btn-success" type="button" onclick="agregarMesa()">Guardar</button>
+        </form>
+    `;
+
+    // Muestra el formulario usando SweetAlert2
+    Swal.fire({
+        title: 'Agregar Mesa',
+        html: formHtml,
+        showCancelButton: true,
+        showConfirmButton: false
+    });
+}
+
+
+    function agregarMesa() {
+    // Obtén los valores del formulario
+    let numeroMesa = document.getElementById('numeroMesa').value;
+    let sillas = document.getElementById('sillas').value;
+    let idSala = document.getElementById('idSala').value;
+
+    // Realiza la lógica para agregar la mesa (puedes hacerlo con AJAX o recargar la página)
+    agregarMesaAjax(numeroMesa, sillas, idSala);
+
+    // Cierra el SweetAlert2
+    Swal.close();
+}
+
+const READY_STATE_COMPLETE = 4;
+
+    function agregarMesaAjax(numeroMesa, sillas, idSala) {
+    var agregarMesa = 'agregarMesa';
+    var formDataMesa = new FormData();
+    formDataMesa.append('numeroMesa', numeroMesa);
+    formDataMesa.append('sillas', sillas);
+    formDataMesa.append('idSala', idSala);
+    let http_request_agregar_mesa = new XMLHttpRequest();
+
+    // Abre una conexión con el servidor para enviar la solicitud
+    http_request_agregar_mesa.open('POST', './inc/agregar_mesa.php');
+
+    http_request_agregar_mesa.onreadystatechange = function() {
+        if (http_request_agregar_mesa.readyState == READY_STATE_COMPLETE) {
+            console.log('readystateok');
+            if (http_request_agregar_mesa.status == 200 && http_request_agregar_mesa.responseText == 'ok') {
+                console.log('readystateok2');
+                Swal.fire({
+                    title: 'Mesa agregada!',
+                    icon: "success",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+
+                
+                // Puedes agregar aquí la lógica para recargar o actualizar la tabla de mesas
+                window.location.reload();
+            } else if (http_request_agregar_mesa.responseText == 'repetido') {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'El número de mesa ya existe. Por favor, elige otro número.',
+                    showConfirmButton: false,
+                    timer: 3000
+                });
+            } else if (http_request_agregar_mesa.responseText == 'max_sillas_excedido') {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Número máximo de sillas por mesa (10) excedido.',
+                    showConfirmButton: false,
+                    timer: 3000
+                });
+            }
+        }
+    };
+    http_request_agregar_mesa.send(formDataMesa);
+}
+
+</script>
+
 
 
 
