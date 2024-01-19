@@ -32,8 +32,14 @@ if (!isset($_SESSION['id'])) {
             <div>
         <a class="navbar-brand " href="#">
                 <img src="./img/LOGORICK _Blanco.png" alt="" width="100" height="90">
-                <a href="./registro.php"><button class="atrasboton"><img class="atrasimg" src="./img/libro.png" alt=""></button></a>
-            </a>
+                <?php
+                    if($_SESSION['id'] == 4){
+                        echo "<a href='./admin.php'><button class='atrasboton'><img class='atrasimg' src='./img/admin.png' alt=''></button></a>";
+                    }else{
+                        echo "<a href='./registro.php'><button class='atrasboton'><img class='atrasimg' src='./img/libro.png' alt=''></button></a>";
+
+                    }
+                    ?>            </a>
             </div>
             <div class="saludo">
             <b style="color:white">¡Bienvenido al portal, <?php echo $_SESSION['user'];?>!</b>
