@@ -56,7 +56,7 @@ if (!isset($_SESSION['id'])) {
             </div>
         </div>
     </nav>
-
+<!-- Muestra las mesas -->
     <?php
     if (!isset($_GET['id'])) {
         header("Location: ./home.php");
@@ -314,8 +314,6 @@ if (!isset($_SESSION['id'])) {
                 <option value="1">Terraza 1</option>
                 <option value="2">Terraza 2</option>
                 <option value="3">Terraza 3</option>
-                <option value="4">Comedor 1</option>
-                <option value="5">Comedor 2</option>
             </select>
 
             <br><br><button class="btn btn-success" type="button" onclick="agregarMesa()">Guardar</button>

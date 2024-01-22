@@ -32,6 +32,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt->bindParam(':id_mesa', $id_mesa, PDO::PARAM_INT);
             $stmt->bindParam(':sillas', $silla, PDO::PARAM_INT);
         } elseif(isset($_POST['borrar_mesa'])){
+            $sqlDeleteOcupaciones = "DELETE FROM ocupaciones WHERE id_mesa = :id_mesa";
+            $stmtDeleteOcupaciones = $conn->prepare($sqlDeleteOcupaciones);
+            $stmtDeleteOcupaciones->bindParam(':id_mesa', $id_mesa, PDO::PARAM_INT);
+            $stmtDeleteOcupaciones->execute();
+           
             $sql = "DELETE FROM mesas WHERE id_mesa = :id_mesa";
             $stmt = $conn->prepare($sql);
             $stmt->bindParam(':id_mesa', $id_mesa, PDO::PARAM_INT);
