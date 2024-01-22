@@ -36,11 +36,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         $L_update_stmt->bindParam(':numero_mesa', $numero_mesa, PDO::PARAM_INT);
                         $L_update_stmt->execute();
     
-                        $sql_insert = "INSERT INTO ocupaciones (id_usuario, id_mesa) VALUES (:id_usuario, :id_mesa)";
-                        $stmt_insert = $conn->prepare($sql_insert);
-                        $stmt_insert->bindParam(':id_usuario', $_SESSION['id'], PDO::PARAM_INT);
-                        $stmt_insert->bindParam(':id_mesa', $res[0]['id_mesa'], PDO::PARAM_INT);
-                        $stmt_insert->execute();
+                        // $sql_insert = "INSERT INTO ocupaciones (id_usuario, id_mesa) VALUES (:id_usuario, :id_mesa)";
+                        // $stmt_insert = $conn->prepare($sql_insert);
+                        // $stmt_insert->bindParam(':id_usuario', $_SESSION['id'], PDO::PARAM_INT);
+                        // $stmt_insert->bindParam(':id_mesa', $_POST['id_mesa'], PDO::PARAM_INT);
+                        // $stmt_insert->execute();
     
                         $conn->commit();
     
@@ -67,7 +67,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         $stmt_update = $conn->prepare($sql_update);
                         $stmt_update->bindParam(':fecha_fin', $fecha_actual);
                         $stmt_update->bindParam(':id_usuario', $_SESSION['id'], PDO::PARAM_INT);
-                        $stmt_update->bindParam(':id_mesa', $res[0]['id_mesa'], PDO::PARAM_INT);
+                        $stmt_update->bindParam(':id_mesa', $_POST['id_mesa'], PDO::PARAM_INT);
                         $stmt_update->execute();
     
                         $conn->commit();
@@ -128,7 +128,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         $sql_insert = "INSERT INTO ocupaciones (id_usuario, id_mesa) VALUES (:id_usuario, :id_mesa)";
                         $stmt_insert = $conn->prepare($sql_insert);
                         $stmt_insert->bindParam(':id_usuario', $_SESSION['id'], PDO::PARAM_INT);
-                        $stmt_insert->bindParam(':id_mesa', $res[0]['id_mesa'], PDO::PARAM_INT);
+                        $stmt_insert->bindParam(':id_mesa',$_POST['id_mesa'], PDO::PARAM_INT);
                         $stmt_insert->execute();
     
                         $conn->commit();
@@ -145,6 +145,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         }
                         die();
                     } elseif ($estado == 'ocupada') {
+                        $fecha_actual = date("Y-m-d H:i:s");
+
                         $conn->beginTransaction();
     
                         $O_update_sql = "UPDATE mesas SET estado = 'libre' WHERE numero_mesa = :numero_mesa";
@@ -156,7 +158,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         $stmt_update = $conn->prepare($sql_update);
                         $stmt_update->bindParam(':fecha_fin', $fecha_actual);
                         $stmt_update->bindParam(':id_usuario', $_SESSION['id'], PDO::PARAM_INT);
-                        $stmt_update->bindParam(':id_mesa', $res[0]['id_mesa'], PDO::PARAM_INT);
+                        $stmt_update->bindParam(':id_mesa', $_POST['id_mesa'], PDO::PARAM_INT);
                         $stmt_update->execute();
     
                         $conn->commit();

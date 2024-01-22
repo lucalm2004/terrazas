@@ -154,6 +154,14 @@ if (!isset($_SESSION['id'])) {
                     70 registros</option>
             </select>
 
+            <!-- FILTRO PARA EL ESTADO DE LA SILLA -->
+<select name="estado_silla" id="estado_silla">
+    <option value="">Todos los Estados</option>
+    <option value="libre" <?php echo (isset($_GET['estado_silla']) && $_GET['estado_silla'] == 'libre') ? 'selected' : ''; ?>>Libre</option>
+    <option value="ocupado" <?php echo (isset($_GET['estado_silla']) && $_GET['estado_silla'] == 'ocupado') ? 'selected' : ''; ?>>Ocupado</option>
+    <option value="mantenimiento" <?php echo (isset($_GET['estado_silla']) && $_GET['estado_silla'] == 'mantenimiento') ? 'selected' : ''; ?>>Mantenimiento</option>
+</select>
+
             <button type="submit">Filtrar</button>
             <button type="submit">
                 <a style="text-decoration: none; color: black;" href="./registro.php">Borrar Flitros</a>
@@ -165,7 +173,7 @@ if (!isset($_SESSION['id'])) {
         try {
             $numFiltro = isset($_GET['numero_filtro']) ? intval($_GET['numero_filtro']) : 0;
 
-            $sql = "SELECT u.nombre_user, s.nombre_sala, m.numero_mesa, o.fecha_inicio, o.fecha_fin,
+            $sql = "SELECT u.nombre_user, s.nombre_sala, m.numero_mesa, m.estado, o.fecha_inicio, o.fecha_fin,
                 TIMEDIFF(o.fecha_fin, o.fecha_inicio) AS duracion_ocupacion
                 FROM ocupaciones o 
                 INNER JOIN usuarios u ON o.id_usuario = u.id_usuario 
@@ -193,6 +201,13 @@ if (!isset($_SESSION['id'])) {
                 $sql .= " m.numero_mesa = $mesaFilter";
             }
 
+            // FILTRO DE ESTADO DE LA SILLA POR $_GET
+if (isset($_GET['estado_silla']) && !empty($_GET['estado_silla'])) {
+    $estadoSillaFilter = $conn->quote($_GET['estado_silla']);
+    $sql .= (isset($_GET['sala']) || isset($_GET['usuario']) || isset($_GET['mesas'])) ? " AND" : " WHERE";
+    $sql .= " m.estado = $estadoSillaFilter";
+}
+
             // FILTRO NÚMERO REGISTROS
             if ($numFiltro > 0) {
                 $sql .= " LIMIT $numFiltro";
@@ -218,6 +233,7 @@ if (!isset($_SESSION['id'])) {
                 echo '<th>Nombre Usuario</th>';
                 echo '<th>Sala</th>';
                 echo '<th>Número de Mesa</th>';
+                echo '<th>Estado:</th>';
                 echo '<th>Fecha Inicio</th>';
                 echo '<th>Fecha Fin</th>';
                 echo '<th>Duración</th>';
@@ -231,6 +247,7 @@ if (!isset($_SESSION['id'])) {
                     echo "<td>{$row['nombre_user']}</td>";
                     echo "<td>{$row['nombre_sala']}</td>";
                     echo "<td>{$row['numero_mesa']}</td>";
+                    echo "<td>{$row['estado']}</td>";
                     echo "<td>{$row['fecha_inicio']}</td>";
                     echo "<td>{$row['fecha_fin']}</td>";
                     echo "<td>{$row['duracion_ocupacion']}</td>";

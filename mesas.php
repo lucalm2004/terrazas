@@ -37,7 +37,7 @@ if (!isset($_SESSION['id'])) {
                     <img src="./img/LOGORICK _Blanco.png" alt="" width="100" height="90">
                     <?php
                     if($_SESSION['id'] == 4){
-                        echo "<a href='./registro.php'><button class='atrasboton'><img class='atrasimg' src='./img/admin.png' alt=''></button></a>";
+                        echo "<a href='./admin.php'><button class='atrasboton'><img class='atrasimg' src='./img/admin.png' alt=''></button></a>";
                     }else{
                         echo "<a href='./registro.php'><button class='atrasboton'><img class='atrasimg' src='./img/libro.png' alt=''></button></a>";
 
@@ -166,6 +166,8 @@ if (!isset($_SESSION['id'])) {
                     if($mesa['sillas'] !== 0){
                     echo '<button style="margin-bottom: 30%" type="submit" name="remove_silla" class="btn btn-danger">-</button>';
                     }
+                    echo '  ';
+                    echo '<button style="margin-bottom: 30%;" type="submit" name="borrar_mesa" class="btn btn-outline-danger">🗑️</button>';
                 }
                     echo '</span>';
                     echo '</div>';
