@@ -50,7 +50,7 @@ if (!isset($_SESSION['id'])) {
                 <b style="color:white">¡Bienvenido al portal, <?php echo $_SESSION['user']; ?>!</b>
             </div>
             <div>
-                <a href="./mostra.php"><button class="atrasboton"><img class="atrasimg" src="./img/atras.png"
+                <a href="./mostrar.php"><button class="atrasboton"><img class="atrasimg" src="./img/atras.png"
                             alt=""></button></a>
                 <a href="./inc/salir.php"><button class="logoutboton"><img class="logoutimg" src="./img/LOGOUT.png"
                             alt=""></button></a>
@@ -58,8 +58,19 @@ if (!isset($_SESSION['id'])) {
         </div>
     </nav>
     <div class="container mt-5">
+    <div>
+    <div style="float: left;">
         <h2 class="mb-4" style="color: white;">Historial de Ocupaciones</h2>
-
+    </div>
+    <div style="float: right;">
+        <a href="./reservas.php">
+            <button class="atrasboton">
+                <img class="atrasimg" src="./img/libro.png" alt="">
+            </button>
+        </a>
+    </div>
+</div>
+<br><br><br>
         <form method="get" action="">
 
             <!-- FILTRO PARA USUARIOS FILTRO PARA USUARIOS FILTRO PARA USUARIOS FILTRO PARA USUARIOS FILTRO PARA USUARIOS FILTRO PARA USUARIOS -->
