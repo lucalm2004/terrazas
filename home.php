@@ -72,7 +72,11 @@ if (!isset($_SESSION['id'])) {
     <!------------FIN BARRA DE NAVEGACION--------------------->
     <div class="image-grid">
         <div class="image-item">
-            <button id="fotoTerraza" class="btn-top-right">Cambiar Imagen</button>
+            <?php 
+            if($_SESSION['id'] == 4){
+                echo "<button id='fotoTerraza' class='btn-top-right'>Cambiar Imagen</button>";
+            }
+            ?>
             <a href="./mostrar.php?id=Terraza">
                 <img data-src="./img/terraza.jpg" id="terraza" src="./img/terraza.jpg" alt="Imagen 1">
                 <div class="image-text">
@@ -83,7 +87,11 @@ if (!isset($_SESSION['id'])) {
         </div>
 
         <div class="image-item">
-            <button id="fotoComedor" class="btn-top-right">Cambiar Imagen</button>
+        <?php 
+            if($_SESSION['id'] == 4){
+                echo "<button id='fotoComedor' class='btn-top-right'>Cambiar Imagen</button>  ";
+            }
+            ?>
             <a href="./mostrar.php?id=Menjador">
                 <img data-src="./img/comedor.jpg" id="comedor" src="./img/comedor.jpg" alt="Imagen 2">
                 <div class="image-text">
@@ -94,7 +102,11 @@ if (!isset($_SESSION['id'])) {
         </div>
 
         <div class="image-item">
-            <button id="fotoPrivadas" class="btn-top-right">Cambiar Imagen</button>
+        <?php 
+            if($_SESSION['id'] == 4){
+                echo "<button id='fotoPrivadas' class='btn-top-right'>Cambiar Imagen</button>";
+            }
+            ?>
             <a href="./mostrar.php?id=Privada">
 
                 <img data-src="./img/private.jpg" id="privada" src="./img/private.jpg" alt="Imagen 3">

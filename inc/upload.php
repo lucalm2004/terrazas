@@ -1,4 +1,14 @@
 <?php
+session_start();
+if (!isset($_SESSION['id'])) {
+    header("Location: ./index.php");
+    exit;
+} else if (isset($_GET['logout'])) {
+    session_destroy();
+    header("Location: ./index.php");
+    exit;
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['tipo'])) {
     $targetDirectory = '../img/';
     // echo $_POST['tipo'];
