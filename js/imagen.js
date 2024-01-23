@@ -51,6 +51,7 @@ function mostrarSweetAlert(tipo) {
 
                                 // Verificar si la imagen activa se encontró antes de intentar actualizar el src
                                 if (activeImage) {
+
                                     activeImage.src = imageUrl;
                                 } else {
                                     console.error('Error: No se encontró la imagen activa en el DOM.');

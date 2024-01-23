@@ -74,7 +74,7 @@ if (!isset($_SESSION['id'])) {
         <div class="image-item">
             <button id="fotoTerraza" class="btn-top-right">Cambiar Imagen</button>
             <a href="./mostrar.php?id=Terraza">
-                <img id="terraza" src="./img/terraza.jpg" alt="Imagen 1">
+                <img data-src="./img/terraza.jpg" id="terraza" src="./img/terraza.jpg" alt="Imagen 1">
                 <div class="image-text">
                     <h2>Terrazas</h2>
                     <p>En la terraza, encontrarás tres áreas al aire libre, cada una con capacidad para cuatro mesas.</p>
@@ -85,7 +85,7 @@ if (!isset($_SESSION['id'])) {
         <div class="image-item">
             <button id="fotoComedor" class="btn-top-right">Cambiar Imagen</button>
             <a href="./mostrar.php?id=Menjador">
-                <img id="comedor" src="./img/comedor.jpg" alt="Imagen 2">
+                <img data-src="./img/comedor.jpg" id="comedor" src="./img/comedor.jpg" alt="Imagen 2">
                 <div class="image-text">
                     <h2>Comedores</h2>
                     <p>Dentro de nuestros comedores, contamos con dos zonas, cada una con cuatro mesas.</p>
@@ -97,7 +97,7 @@ if (!isset($_SESSION['id'])) {
             <button id="fotoPrivadas" class="btn-top-right">Cambiar Imagen</button>
             <a href="./mostrar.php?id=Privada">
 
-                <img id="privada" src="./img/private.jpg" alt="Imagen 3">
+                <img data-src="./img/private.jpg" id="privada" src="./img/private.jpg" alt="Imagen 3">
                 <div class="image-text">
                     <h2>Areas Privadas</h2>
                     <p>Nuestras cuatro salas privadas están equipadas con una mesa en cada una. Estos espacios brindan privacidad y comodidad.</p>
