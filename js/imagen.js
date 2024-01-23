@@ -26,6 +26,8 @@ function mostrarSweetAlert(tipo) {
                 if (file) {
                     const formData = new FormData();
                     formData.append('file', file);
+                    formData.append('tipo', tipo); // Agregar la variable 'tipo'
+
 
                     // Enviar la imagen al servidor usando AJAX o Fetch
                     fetch('./inc/upload.php', {
