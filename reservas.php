@@ -89,69 +89,72 @@ if (!isset($_SESSION['id'])) {
         </form>
 
         <?php
-        try {
-            require_once('./inc/conexion.php');
+        
+try {
+    require_once('./inc/conexion.php');
 
-            // Construir la consulta SQL
-            $sql = "SELECT numero_mesa, nombre_reserva, hora_reserva, hora_fin_reserva, dia_reserva FROM mesas";
+    // Construir la consulta SQL
+    $sql = "SELECT r.nombre_reserva, r.hora_reserva, r.hora_fin_reserva, r.dia_reserva, m.numero_mesa
+            FROM reservas r
+            JOIN mesas m ON r.id_mesa = m.id_mesa";
 
-            // Agregar filtro por número de mesa si está presente en $_GET
-            if (isset($_GET['mesas']) && !empty($_GET['mesas'])) {
-                $numMesaFilter = $conn->quote($_GET['mesas']);
-                $sql .= " WHERE numero_mesa = $numMesaFilter";
-            }
+    // Agregar filtro por número de mesa si está presente en $_GET
+    if (isset($_GET['mesas']) && !empty($_GET['mesas'])) {
+        $numMesaFilter = $conn->quote($_GET['mesas']);
+        $sql .= " WHERE m.numero_mesa = $numMesaFilter";
+    }
 
-            // Finalizar la consulta SQL
-            $sql .= ";";
+    // Finalizar la consulta SQL
+    $sql .= ";";
 
-            $stmt = $conn->prepare($sql);
+    $stmt = $conn->prepare($sql);
 
-            if ($stmt === false) {
-                die("Error en la consulta: " . $conn->errorInfo());
-            }
+    if ($stmt === false) {
+        die("Error en la consulta: " . $conn->errorInfo());
+    }
 
-            $stmt->execute();
-            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $stmt->execute();
+    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-            if ($result) {
-                echo '<div class="table-responsive table-wrapper" style="background-color: white;">';
-                echo '<table class="table table-bordered">';
-                echo '<thead class="thead-dark">';
-                echo '<tr>';
-                echo '<th>Número de Mesa</th>';
-                echo '<th>Nombre de la Reserva</th>';
-                echo '<th>Hora de Reserva</th>';
-                echo '<th>Hora de Fin de Reserva</th>';
-                echo '<th>Día de Reserva</th>';
-                echo '</tr>';
-                echo '</thead>';
-                echo '<tbody>';
+    if ($result) {
+        echo '<div class="table-responsive table-wrapper" style="background-color: white;">';
+        echo '<table class="table table-bordered">';
+        echo '<thead class="thead-dark">';
+        echo '<tr>';
+        echo '<th>Nombre de la Reserva</th>';
+        echo '<th>Hora de Reserva</th>';
+        echo '<th>Hora de Fin de Reserva</th>';
+        echo '<th>Día de Reserva</th>';
+        echo '<th>Número de Mesa</th>';
+        echo '</tr>';
+        echo '</thead>';
+        echo '<tbody>';
 
-                // Imprimir resultados
-                foreach ($result as $row) {
-                    echo '<tr>';
-                    echo "<td>{$row['numero_mesa']}</td>";
-                    echo "<td>" . (!empty($row['nombre_reserva']) ? $row['nombre_reserva'] : 'No hay Reservas') . "</td>";
-                    echo "<td>" . (!empty($row['hora_reserva']) ? $row['hora_reserva'] : 'No hay Reservas') . "</td>";
-                    echo "<td>" . (!empty($row['hora_fin_reserva']) ? $row['hora_fin_reserva'] : 'No hay Reservas') . "</td>";
-                    echo "<td>" . (!empty($row['dia_reserva']) ? $row['dia_reserva'] : 'No hay Reservas') . "</td>";
-                    echo '</tr>';
-                }
-
-                echo '</tbody>';
-                echo '</table>';
-                echo '</div>';
-            } else {
-                echo '<p style="color: white;">No hay Reservas.</p>';
-            }
-        } catch (PDOException $e) {
-            echo "Error: " . $e->getMessage();
-        } finally {
-            if (isset($stmt)) {
-                $stmt->closeCursor();
-            }
+        // Imprimir resultados
+        foreach ($result as $row) {
+            echo '<tr>';
+            echo "<td>" . (!empty($row['nombre_reserva']) ? $row['nombre_reserva'] : 'No hay Reservas') . "</td>";
+            echo "<td>" . (!empty($row['hora_reserva']) ? $row['hora_reserva'] : 'No hay Reservas') . "</td>";
+            echo "<td>" . (!empty($row['hora_fin_reserva']) ? $row['hora_fin_reserva'] : 'No hay Reservas') . "</td>";
+            echo "<td>" . (!empty($row['dia_reserva']) ? $row['dia_reserva'] : 'No hay Reservas') . "</td>";
+            echo "<td>{$row['numero_mesa']}</td>";
+            echo '</tr>';
         }
-        ?>
+
+        echo '</tbody>';
+        echo '</table>';
+        echo '</div>';
+    } else {
+        echo '<p style="color: white;">No hay Reservas.</p>';
+    }
+} catch (PDOException $e) {
+    echo "Error: " . $e->getMessage();
+} finally {
+    if (isset($stmt)) {
+        $stmt->closeCursor();
+    }
+}
+?>
     </div>
 </body>
 

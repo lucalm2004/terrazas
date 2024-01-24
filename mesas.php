@@ -66,7 +66,11 @@ if (!isset($_SESSION['id'])) {
             require './inc/conexion.php';
 
             $id = trim($_GET['id']);
-            $sql = "SELECT * FROM mesas WHERE id_sala = :id";
+            $sql = "SELECT m.*, COUNT(r.id_mesa) AS total_reservas
+            FROM mesas m
+            LEFT JOIN reservas r ON m.id_mesa = r.id_mesa
+            WHERE m.id_sala = :id
+            GROUP BY m.id_mesa";
             $stmt = $conn->prepare($sql);
             $stmt->bindParam(':id', $id, PDO::PARAM_STR);
             $stmt->execute();
@@ -157,7 +161,10 @@ if (!isset($_SESSION['id'])) {
                     echo "<input type='hidden' name='sillas' value=" . $mesa['sillas'] . ">";
                     echo '<div class="d-flex align-items-center justify-content-between">';
                     echo '<p><b>Sillas: </b>' . $mesa['sillas'] . '</p>';
+
                     echo '<div>';
+                    echo '<p><b>Total Reservas: </b>' . $mesa['total_reservas'] . '</p>';
+
                     echo '<span>';
                     if($_SESSION['id'] == 4 ){
 
@@ -393,6 +400,19 @@ const READY_STATE_COMPLETE = 4;
     http_request_agregar_mesa.send(formDataMesa);
 }
 
+
+const urlParams = new URLSearchParams(window.location.search);
+    const errorParam = urlParams.get('error');
+    const errorMsg = urlParams.get('msg');
+
+    if (errorParam && errorMsg) {
+        // Muestra SweetAlert con el mensaje de error
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: decodeURIComponent(errorMsg),
+        });
+    }
 </script>
 
 
